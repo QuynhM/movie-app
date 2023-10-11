@@ -1,13 +1,154 @@
+*, ::before, ::after {
+  box-sizing: inherit;
+}
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: rgb(18, 18, 18);
+  }
+  .content {
+    display: none;
+  }
+  .display {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+/*   
+  .trending-page {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+  } */
+  
+  .trending {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    flex-flow: column wrap;
+    width: 100%;
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  .card{
+    background: 0 0;
+    border: 0;
+    box-shadow: none;
+    margin-top: 0;
+    overflow: visible;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    border: 1px solid #e3e3e3;
+    border-radius: var(--imageBorderRadius);
+    overflow: hidden;
+    margin-top: 30px;
+  border: 1px solid rgba(var(--lightGrey),1);
+  background-color: #fff;
+} 
+/* .card2 {
+  margin: 0 0 20px 0;
+  width: 13%;
+} */
+
+.card:hover .favorite_icon {
+  color: #f50057;
+}
+.card:hover .recommend_icon {
+  color: rgb(2, 139, 224);
+}
+.card:hover .content {
+  display: block;
+  background-color: rgba(0, 0, 0, 1);
+  border-radius: 3px;
+  min-height: 30%;
+}
+.displayMovies{
+  margin-left: 50px; 
+  justify-content: center;
+  align-items: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.popular{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  flex-flow: column wrap;
+  width: 100%;
+  margin-top: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.pop-display{
+  margin-top: 100px;
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .trending {
+    flex-flow: row wrap;
+    display: flex;
+    justify-content: center;
+  }
+
+  .popular-title {
+  justify-content: center;
+  }
+
+  .title{
+    text-size-adjust: 100%;
+  }
+
+  .card {
+    width: calc(50% - 10px);
+  }
+
+  .popular{
+    flex-flow: row wrap;
+    display: flex;
+    justify-content: center;
+  }
+  .display{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+
+    flex-flow: row wrap;
+  }
+  /* .displayMovies{
+    flex-flow: row wrap;
+    margin-left: 100px;
+    justify-content: center;
+    align-items: center;
+  }*/
+} 
+
+@media (max-width: 480px) {
+  .card {
+    width: calc(100% - 10px);
+  }
 }
