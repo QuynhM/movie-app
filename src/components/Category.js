@@ -71,12 +71,16 @@ export default function Category() {
         <ListItemText
           primary="Category"
           primaryTypographyProps={{
-            fontSize: 18,
-            fontWeight: "bold",
-            lineHeight: "20px",
-            mb: "2px",
+            fontWeight: 500,
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+            cursor: "pointer",
+            transition: "0.3s",
+            marginRight: "20px",
+            marginTop: "9px",
           }}
-          sx={{ my: 0 }}
+          // sx={{ my: 0 }}
+          className="nav"
         />
       </ListItemButton>
       <Popover

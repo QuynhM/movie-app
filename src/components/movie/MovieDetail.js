@@ -11,13 +11,31 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import StarIcon from "@mui/icons-material/Star";
+import Button from "@mui/material/Button";
+
 // import { API_KEY } from "../api/config";
+import { MyContext } from "../../contexts/MyContext";
+import { useContext } from "react";
 
 const MovieDetail = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const { favoriteList, setFavoriteList } = useContext(MyContext);
 
+  const handleAddFavorite = () => {
+    // Create a new movie object with the relevant details
+    const newMovie = {
+      id: movie.id,
+      original_title: movie.original_title,
+      poster_path: movie.poster_path,
+      vote_average: movie.vote_average,
+      vote_count: movie.vote_count,
+    };
+    if (!favoriteList.some((favorite) => favorite.id === newMovie.id)) {
+      const updatedFavorites = [...favoriteList, newMovie];
+      setFavoriteList(updatedFavorites);
+    }
+  };
   useEffect(() => {
     // Fetch movie details based on the `movieId` parameter from the URL
     const fetchMovieDetails = async () => {
@@ -171,7 +189,7 @@ const MovieDetail = () => {
                 />
               </Stack>
 
-              <Stack flexDirection="row" justifyContent="flex-end" mt={1}>
+              <Stack flexDirection="row" mt={1}>
                 <Box
                   display="flex"
                   flexDirection="row"
@@ -189,12 +207,14 @@ const MovieDetail = () => {
                     {`${movie.vote_average}`}
                   </Typography>
                 </Box>
-                <Stack>
-                  {/* {movieDetail.videos.results?.map((item) => (
-                  <VideoPlayer linkKey={item.key} />
-                ))} */}
-                </Stack>
               </Stack>
+              <Button
+                variant="contained"
+                onClick={handleAddFavorite}
+                sx={{ backgroundColor: "white" }}
+              >
+                Add to Favorite
+              </Button>
             </Stack>
           </Stack>
         ) : (

@@ -1,45 +1,35 @@
-import React, { useState } from "react";
-import Typography from "@mui/material/Typography";
-import MovieBox from "./movie/MovieBox";
+import React, { useContext } from "react";
+import MovieBox from "../components/movie/MovieBox";
+import Grid from "@mui/material/Grid";
+import { MyContext } from "../contexts/MyContext";
 
-const FavoriteMovies = () => {
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  // Function to add a movie to favorites
-  const addToFavorites = (movie) => {
-    // Check if the movie is not already in favorites
-    if (!favoriteMovies.find((favMovie) => favMovie.id === movie.id)) {
-      setFavoriteMovies([...favoriteMovies, movie]);
-    }
-  };
-
-  // Function to remove a movie from favorites
-  const removeFromFavorites = (movie) => {
-    const updatedFavorites = favoriteMovies.filter(
-      (favMovie) => favMovie.id !== movie.id
-    );
-    setFavoriteMovies(updatedFavorites);
-  };
+function FavoriteMovies() {
+  const { favoriteList } = useContext(MyContext);
 
   return (
-    <div>
-      <Typography variant="h5" my={3}>
-        Favorite Movies
-      </Typography>
-      {favoriteMovies.length === 0 ? (
-        <Typography variant="body1">No favorite movies yet.</Typography>
+    <div className="popular">
+      {favoriteList.length === 0 ? (
+        <h2>Your favorite list is empty!</h2>
       ) : (
-        favoriteMovies.map((item) => (
-          <div key={item.id}>
-            <MovieBox item={item} />
-            <button onClick={() => removeFromFavorites(item)}>
-              Remove from Favorites
-            </button>
-          </div>
-        ))
+        <>
+          <Grid
+            container
+            spacing={12}
+            alignItems="center"
+            justifyContent="center"
+            className="display"
+            flexDirection="row"
+          >
+            {favoriteList.map((item) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
+                <MovieBox item={item} />
+              </Grid>
+            ))}
+          </Grid>
+        </>
       )}
     </div>
   );
-};
+}
 
 export default FavoriteMovies;

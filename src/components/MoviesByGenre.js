@@ -8,16 +8,22 @@ import Pagination from "@mui/material/Pagination";
 import Divider from "@mui/material/Divider";
 import { useParams } from "react-router-dom";
 import NoMatchPage from "../pages/NoMatchPage";
-import { Grid } from "@mui/material";
+import { Box, Grid, IconButton } from "@mui/material";
+import { NavigateBefore, NavigateNext } from "@mui/icons-material"; // Import icons
+import "../index.css";
+
+const style = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
 
 function MoviesByGenre() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [genreTitle, setGenreTitle] = useState(null);
+  const [page, setPage] = useState(1);
 
   let { genreId, genreName } = useParams();
-  // console.log("Id:", genreId);
-  // console.log("Name:", genreName);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,10 +31,8 @@ function MoviesByGenre() {
         setLoading(true);
 
         const res = await apiService.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&append_to_response=videos&with_genres=${genreId}`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreId}&page=${page}`
         );
-
-        // const result = res.data;
 
         setMovies(res.data.results);
 
@@ -39,37 +43,78 @@ function MoviesByGenre() {
       }
     };
     fetchData();
-  }, [genreId]);
+  }, [genreId, page]);
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const isSmallScreen = window.innerWidth <= 750;
 
   return (
-    <div>
+    <div className="popular">
       {loading ? (
         <LoadingScreen />
       ) : (
         <>
-          <div className="displayMovies" flexDirection="row">
+          <div
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h5" my={3}>
               {genreName}
             </Typography>
             <Divider />
-            <Grid
-              container
-              spacing={12}
-              alignItems="center"
-              justifyContent="center"
-              className="display"
-              flexDirection="row"
-            >
-              {movies ? (
-                movies.map((item) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
+            {/* <Grid container spacing={12} className="display"> */}
+            {movies ? (
+              <Grid container spacing={3}>
+                {movies.slice(0, 12).map((item) => (
+                  <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
                     <MovieBox item={item} />
                   </Grid>
-                ))
-              ) : (
-                <NoMatchPage />
-              )}
-            </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <NoMatchPage />
+            )}
+            {/* </Grid> */}
+
+            {movies.length > 0 && (
+              <Grid container spacing={3}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+
+                    marginTop: "45px",
+                  }}
+                >
+                  {isSmallScreen ? (
+                    <Box>
+                      <IconButton
+                        onClick={() => handlePageChange(null, page - 1)}
+                      >
+                        <NavigateBefore />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => handlePageChange(null, page + 1)}
+                      >
+                        <NavigateNext />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <Pagination
+                      count={10}
+                      page={page}
+                      onChange={handlePageChange}
+                    />
+                  )}
+                </Box>
+              </Grid>
+            )}
           </div>
         </>
       )}

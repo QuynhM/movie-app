@@ -7,15 +7,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-// import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../components/Logo";
 import MSearchBar from "../components/MSearchBar";
-import Category from "../components/Category";
 import StarIcon from "@mui/icons-material/Star";
+import Category from "../components/Category";
+import MovieCreationIcon from "@mui/icons-material/MovieCreation";
 
 export default function PrimarySearchAppBar() {
   let location = useLocation();
@@ -37,7 +37,6 @@ export default function PrimarySearchAppBar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    console.log(location);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -45,9 +44,10 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleLogout = () => {
-    handleMenuClose(); //menu close before signout so that login won't pop up.
+    handleMenuClose();
     auth.signout();
   };
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -87,7 +87,7 @@ export default function PrimarySearchAppBar() {
           color="inherit"
           component={Link}
           to="/login"
-          state={{ backgroundLocation: location, from: location }}
+          state={{ from: location }}
           onClick={handleMenuClose}
         >
           Login
@@ -113,22 +113,11 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem component={Link} to="/favorite">
-        <IconButton
-          size="large"
-          color="inherit"
-          disableRipple={true}
-          children={<StarIcon />}
-        />
-
-        <p>Favorite</p>
-      </MenuItem> */}
-
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
           aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
+          aria-controls={menuId}
           aria-haspopup="true"
           color="inherit"
         >
@@ -136,6 +125,27 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+
+      <MenuItem>
+        <IconButton
+          size="large"
+          to={
+            auth.user
+              ? "/favorite"
+              : { pathname: "/login", state: { from: "/favorite" } }
+          }
+          color="inherit"
+          children={<StarIcon />}
+        />
+        {console.log("In favorite")}
+        <p>Favorite</p>
+      </MenuItem>
+
+      {window.innerWidth <= 900 ? (
+        <IconButton size="large" color="inherit" disableRipple={true}>
+          <Category />
+        </IconButton>
+      ) : null}
     </Menu>
   );
 
@@ -149,18 +159,21 @@ export default function PrimarySearchAppBar() {
 
           <MSearchBar />
 
-          <Category />
+          {window.innerWidth >= 900 ? <Category /> : null}
 
           <Box sx={{ flexGrow: 1 }} />
-
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* <IconButton
-              component={Link}
-              to="/favorite"
+            <IconButton
               size="large"
+              component={auth.user ? Link : Link}
+              to={
+                auth.user
+                  ? "/favorite"
+                  : { pathname: "/login", state: { from: location } }
+              }
               color="inherit"
               children={<StarIcon />}
-            /> */}
+            />
             <IconButton
               size="large"
               edge="end"

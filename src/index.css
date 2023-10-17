@@ -81,21 +81,30 @@ body {
   border-radius: 3px;
   min-height: 30%;
 }
-.displayMovies{
+/* .displayMovies{
   margin-left: 50px; 
   justify-content: center;
   align-items: center;
-}
+} */
 
 .popular{
-  box-sizing: border-box;
+  /* box-sizing: border-box;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
   flex-flow: column wrap;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px; */
+  /* margin-left: 100px; */
+  /* margin-right: 100px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   margin-top: 50px;
-  margin-left: 100px;
+  margin-left: 100px; 
   margin-right: 100px;
 }
 .pop-display{

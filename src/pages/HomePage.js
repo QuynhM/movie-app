@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import TrendingMoviesList from "../components/TrendingMoviesList";
+import TrendingMoviesList from "../components/trendingmovies/TrendingMoviesList";
 import PopularMoviesList from "../components/PopularMoviesList";
 
 function HomePage() {
